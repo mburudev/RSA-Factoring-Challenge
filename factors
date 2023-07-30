@@ -2,13 +2,10 @@
 """Module that factorize as many numbers as possible
  into a product of two smaller numbers."""
 import sys
-import time
 
-def factorize(number, start_time):
+def factorize(number):
     factors = []
     for i in range(2, int(number**0.5) + 1):
-        if time.time() - start_time > 5:
-            raise TimeoutError("Time limit exceeded.")
         while number % i == 0:
             factors.append(i)
             number //= i
@@ -27,13 +24,9 @@ def main():
         with open(file_path, 'r') as file:
             for line in file:
                 number = int(line.strip())
-                start_time = time.time()
-                try:
-                    factors = factorize(number, start_time)
-                    if len(factors) == 2:
-                        print(f"{number}={factors[0]}*{factors[1]}")
-                except TimeoutError:
-                    print("Factorization took too long. Skipping this number.")
+                factors = factorize(number)
+                if len(factors) == 2:
+                    print(f"{number}={factors[0]}*{factors[1]}")
     except FileNotFoundError:
         print("File not found.")
     except ValueError:
